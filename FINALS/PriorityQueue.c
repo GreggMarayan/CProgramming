@@ -11,7 +11,7 @@ void displayAll(heap);
 void insert(heap*, int);
 int deleteMin(heap*);
 void swap(heap*, int, int);
-
+int GETPNDX(int);
 
 int main(){
     heap H;
@@ -53,6 +53,10 @@ void initHeap(heap *H){
     for (int i = 0; i < MAX; i++){H->elem[i] = 0;}
 }
 
+int GETPNDX(int cNdx){
+    return (cNdx - 1) / 2;
+}
+
 void insert(heap *H, int N){
     int ParentNdx, ChildNdx;
 
@@ -61,9 +65,9 @@ void insert(heap *H, int N){
         H->elem[H->last + 1] = N; 
         H->last++;
 
-        for(ChildNdx = H->last, ParentNdx = ((ChildNdx - 1) / 2);           // variable declaration;
+        for(ChildNdx = H->last, ParentNdx = GETPNDX(ChildNdx);           // variable declaration;
             ParentNdx != ChildNdx;                                          // Constraint;
-            ChildNdx = ParentNdx, ParentNdx = ((ChildNdx - 1) / 2)){        // increment;
+            ChildNdx = ParentNdx, ParentNdx = GETPNDX(ChildNdx)){        // increment;
 
                 if (H->elem[ParentNdx] > H->elem[ChildNdx]){
                     swap(H, ParentNdx, ChildNdx);
