@@ -10,7 +10,11 @@
 int min(int,int);
 
 typedef int MATRIX[MAX][MAX];
+
+int* floyds(MATRIX);
 int *dij(MATRIX);
+
+
 void print(MATRIX);
 
 int main(void)
@@ -66,4 +70,17 @@ int* dij(MATRIX main)
     }
 
     return retval;
+}
+
+int* floyds(MATRIX main){
+
+    int *retval = malloc(sizeof(int) * MAX);
+    for(int x = 0; x < MAX; x++){
+        retval[x] = malloc(sizeof(int) * MAX);
+    }
+
+
+
+
+
 }
