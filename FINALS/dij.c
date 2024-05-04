@@ -30,9 +30,9 @@ int main(void)
     return 0;
 }
 
-int *dij(MATRIX main)
+int* dij(MATRIX main)
 {
-    int *retval = (int *)malloc(sizeof(int) * MAX);
+    int* retval = (int *)malloc(sizeof(int) * MAX);
 
     int ctr, ndx, ind, smallndx, small = Z;
     int SET[MAX] = {1, 0, 0, 0, 0};
