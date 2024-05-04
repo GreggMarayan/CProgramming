@@ -2,11 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <math.h>
 
 #define MAX 5
-#define Z __INT_MAX__
-#define min(a, b) ((a) < (b) ? (a) : (b))
+// #define Z INT_MAX -> results in negative value (better to use 999999 instead)
+#define Z 999999
+
+int min(int,int);
 
 typedef int MATRIX[MAX][MAX];
 int *dij(MATRIX);
@@ -30,22 +31,25 @@ int main(void)
     return 0;
 }
 
+
+int min(int a, int b){
+    return (a < b) ? a : b;
+}
+
 int* dij(MATRIX main)
 {
-    int* retval = (int *)malloc(sizeof(int) * MAX);
-
-    int ctr, ndx, ind, smallndx, small = Z;
+    int* retval = malloc(sizeof(int) * MAX);
+    int ctr, ndx, ind, smallndx, small;
     int SET[MAX] = {1, 0, 0, 0, 0};
 
     memcpy(retval, main[0], sizeof(int) * MAX);
+
     retval[0] = 0;
 
-    for (ctr = 1; ctr < MAX; ctr++)
-    {
-        for (ndx = 0; ndx < MAX; ndx++)
-        {
-            if (SET[ndx] != 1)
-            {   
+    for (ctr = 0; ctr < MAX; ctr++)
+    {   
+        for (ndx = 0, small = Z; ndx < MAX; ndx++){
+            if (SET[ndx] != 1 && (retval[ndx] < small && retval > 0)){   
                 small = retval[ndx];
                 smallndx = ndx;
             }
@@ -55,9 +59,8 @@ int* dij(MATRIX main)
 
         for (ind = 0; ind < MAX; ind++)
         {
-            if (SET[ndx] != 1)
-            {
-                SET[ndx] = min(SET[ndx], (SET[smallndx] + main[smallndx][ndx]));
+            if (!SET[ind]){
+                retval[ind] = min(retval[ind], (retval[smallndx] + main[smallndx][ind]));
             }
         }
     }
