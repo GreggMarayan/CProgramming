@@ -2,10 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <math.h>
 
 #define MAX 5
-#define Z __INT_MAX__
+#define Z 99999 // INT_MAX sometimes gives me a value of a negative number for some reason
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
 typedef int MATRIX[MAX][MAX];
@@ -30,37 +29,38 @@ int main(void)
     return 0;
 }
 
-int *dij(MATRIX main)
-{
-    int *retval = (int *)malloc(sizeof(int) * MAX);
+int* dij(MATRIX main){
 
-    int ctr, ndx, ind, smallndx, small = Z;
-    int SET[MAX] = {1, 0, 0, 0, 0};
+    //copy the costs from the source vertex
+    int* retval = malloc(sizeof(int) * MAX);
+    memcpy(retval, main[0],(sizeof(int) * MAX));
 
-    memcpy(retval, main[0], sizeof(int) * MAX);
-    retval[0] = 0;
+    int small, smallndx, ndx, ctr;
 
-    for (ctr = 1; ctr < MAX; ctr++)
-    {
-        for (ndx = 0; ndx < MAX; ndx++)
-        {
-            if (SET[ndx] != 1)
-            {   
+    //initialize the set
+    int SET[MAX] = {1,0,0,0,0};
+    
+    for(ctr = 1; ctr < MAX; ctr++){
+    
+        //Loops through the retval to determine the shortest path to another vertex
+        for(ndx = 0, small = Z; ndx < MAX; ndx++){
+            if(!SET[ndx] && retval[ndx] < small){
                 small = retval[ndx];
                 smallndx = ndx;
             }
         }
 
+        //Sets the next shortest vertex it found as visited in the set
         SET[smallndx] = 1;
 
-        for (ind = 0; ind < MAX; ind++)
-        {
-            if (SET[ndx] != 1)
-            {
-                SET[ndx] = min(SET[ndx], (SET[smallndx] + main[smallndx][ndx]));
+        //loops through the the main from the smallest vertex to find any other shorter path that the source vertex has found already
+        for(ndx = 0; ndx < MAX; ndx++){
+            if(!SET[ndx]){
+                retval[ndx] = min(retval[ndx], (retval[smallndx] + main[smallndx][ndx]));
             }
         }
     }
 
+    retval[0] = 0;
     return retval;
 }
