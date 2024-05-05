@@ -8,7 +8,7 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
 typedef int MATRIX[MAX][MAX];
-int *dij(MATRIX);
+int *dij(MATRIX,int);
 void print(MATRIX);
 
 int main(void)
@@ -19,28 +19,31 @@ int main(void)
                      {20, Z, Z, Z, 10},
                      {Z, Z, 20, Z, 60},
                      {Z, Z, Z, Z, Z}};
-    int *wow = dij(MATRIX);
+    int *wow = dij(MATRIX,2);
     for (int i = 0; i < 5; i++)
     {
-        printf("%d -> %d\n",i+1,wow[i]);
+        printf("%d -> %d\n",i,wow[i]);
     }
     
 
     return 0;
 }
 
-int* dij(MATRIX main){
+int* dij(MATRIX main, int src){
 
     //copy the costs from the source vertex
     int* retval = malloc(sizeof(int) * MAX);
-    memcpy(retval, main[0],(sizeof(int) * MAX));
+    memcpy(retval, main[src],(sizeof(int) * MAX));
 
     int small, smallndx, ndx, ctr;
 
-    //initialize the set
-    int SET[MAX] = {1,0,0,0,0};
-    
-    for(ctr = 1; ctr < MAX; ctr++){
+    //initialize the set, D, and 
+    int SET[MAX] = {0};
+    SET[src] = 1;
+    retval[src] = 0;
+
+
+    for(ctr = 0; ctr < MAX; ctr++){
     
         //Loops through the retval to determine the shortest path to another vertex
         for(ndx = 0, small = Z; ndx < MAX; ndx++){
@@ -61,6 +64,5 @@ int* dij(MATRIX main){
         }
     }
 
-    retval[0] = 0;
     return retval;
 }
