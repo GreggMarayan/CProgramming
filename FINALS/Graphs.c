@@ -38,42 +38,6 @@ int main(void) {
     return 0;
 }
 
-// int prims(MATRIX graph) {
-//     int totalCost = 0;
-//     SET visited = { 0 }; // Initialize visited array
-
-//     // Start from vertex 0
-//     visited[A] = 1;
-
-//     // Number of edges to be added to the MST
-//     int edgeCount = 0;
-
-//     // Repeat until all vertices are visited
-//     while (edgeCount < MAX - 1) {
-//         int minWeight = Z;
-//         int minVertex = -1;
-
-//         // Find the minimum weight edge from a vertex in the MST to a vertex outside the MST
-//         for (int i = 0; i < MAX; ++i) {
-//             if (visited[i]) {
-//                 for (int j = 0; j < MAX; ++j) {
-//                     if (!visited[j] && graph[i][j] < minWeight) {
-//                         minWeight = graph[i][j];
-//                         minVertex = j;
-//                     }
-//                 }
-//             }
-//         }
-
-//         // Add the minimum weight edge to the MST
-//         totalCost += minWeight;
-//         visited[minVertex] = 1;
-//         edgeCount++;
-//     }
-
-//     return totalCost;
-// }
-
 GRAPH prims(MATRIX main){
     GRAPH retval = {.TotalCost = 0};
     int SET[MAX] = {1,0,0,0,0,0};
