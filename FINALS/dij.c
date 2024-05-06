@@ -5,7 +5,7 @@
 
 #define MAX 5
 #define Z 99999 // INT_MAX sometimes gives me a value of a negative number for some reason
-#define min(a, b) ((a) < (b) ? (a) : (b))
+// #define min(a, b) ((a) < (b) ? (a) : (b))
 
 typedef int MATRIX[MAX][MAX];
 int* dij(MATRIX,int);
@@ -13,9 +13,11 @@ void floyd(MATRIX, MATRIX);
 
 void print(MATRIX);
 
+int min(int a, int b) {return (a < b) ? a : b;}
+
 int main(void)
 {
-
+    system("cls");
     MATRIX M = {    {Z, 10, Z, 30, 100},
                     {Z, Z, 50, Z, Z},
                     {20, Z, Z, Z, 10},
@@ -24,9 +26,17 @@ int main(void)
                     
                     };
 
-    MATRIX waw;
-    floyd(M, waw);
-    print(waw);
+
+    MATRIX rawr;
+    floyd(M,rawr);
+    print(rawr);
+
+    system("pause");
+    system("cls");
+
+    for(int ndx = 0; ndx<MAX;ndx++)
+        memcpy(rawr[ndx], dij(M,ndx), sizeof(int)*MAX);
+    print(rawr);
     
     
 
@@ -39,16 +49,14 @@ int* dij(MATRIX main, int src){
     int* retval = malloc(sizeof(int) * MAX);
     memcpy(retval, main[src],(sizeof(int) * MAX));
 
-    int small, smallndx, ndx, ctr;
+    int small, smallndx, ndx, ctr = 0;
 
     //initialize the set, D, and 
     int SET[MAX] = {0};
     SET[src] = 1;
     retval[src] = 0;
 
-
-    for(ctr = 0; ctr < MAX; ctr++){
-    
+    while(ctr < MAX){
         //Loops through the retval to determine the shortest path to another vertex
         for(ndx = 0, small = Z; ndx < MAX; ndx++){
             if(!SET[ndx] && retval[ndx] < small){
@@ -66,19 +74,34 @@ int* dij(MATRIX main, int src){
                 retval[ndx] = min(retval[ndx], (retval[smallndx] + main[smallndx][ndx]));
             }
         }
-    }
-
+        ctr++;
+}
     return retval;
 }
 
 void floyd(MATRIX main, MATRIX retval){
-    
-    int ndx;
 
-    for(ndx = 0; ndx < MAX; ndx++){
-        memcpy(retval[ndx], dij(main,ndx),(sizeof(int) * MAX));
-    }
+    int i, j, k;
+
+    for (int i = 0; i < MAX; i++)
+        for (int j = 0; j < MAX; j++)
+            retval[i][j] = main[i][j]; 
+    
+    for(i = 0; i<MAX; i++)
+        retval[i][i] = 0;
+
+    for(k = 0; k<MAX;k++)
+        for(i=0;i<MAX;i++)
+            for(j=0;j<MAX;j++)
+                retval[i][j] = ((retval[i][k] + retval[k][j]) < retval[i][j]) ? (retval[i][k] + retval[k][j]) : retval[i][j];
+        
 }
+
+
+
+
+
+
 
 void print(MATRIX main){
     for(int ndx = 0; ndx < MAX; ndx++){
