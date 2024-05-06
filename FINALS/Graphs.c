@@ -67,16 +67,6 @@ GRAPH prims(MATRIX main){
     return retval;
 }
 
-
-
-
-
-
-
-
-
-
-
 GRAPH kruskal(MATRIX main){
 
     int small, smallndy, smallndx, edgeCTR = 0;
