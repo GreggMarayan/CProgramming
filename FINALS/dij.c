@@ -8,22 +8,26 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
 typedef int MATRIX[MAX][MAX];
-int *dij(MATRIX,int);
+int* dij(MATRIX,int);
+void floyd(MATRIX, MATRIX);
+
 void print(MATRIX);
 
 int main(void)
 {
 
-    MATRIX MATRIX = {{Z, 10, Z, 30, 100},
-                     {Z, Z, 50, Z, Z},
-                     {20, Z, Z, Z, 10},
-                     {Z, Z, 20, Z, 60},
-                     {Z, Z, Z, Z, Z}};
-    int *wow = dij(MATRIX,2);
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%d -> %d\n",i,wow[i]);
-    }
+    MATRIX M = {    {Z, 10, Z, 30, 100},
+                    {Z, Z, 50, Z, Z},
+                    {20, Z, Z, Z, 10},
+                    {Z, Z, 20, Z, 60},
+                    {Z, Z, Z, Z, Z}
+                    
+                    };
+
+    MATRIX waw;
+    floyd(M, waw);
+    print(waw);
+    
     
 
     return 0;
@@ -65,4 +69,22 @@ int* dij(MATRIX main, int src){
     }
 
     return retval;
+}
+
+void floyd(MATRIX main, MATRIX retval){
+    
+    int ndx;
+
+    for(ndx = 0; ndx < MAX; ndx++){
+        memcpy(retval[ndx], dij(main,ndx),(sizeof(int) * MAX));
+    }
+}
+
+void print(MATRIX main){
+    for(int ndx = 0; ndx < MAX; ndx++){
+        for(int idx = 0; idx < MAX; idx++){
+            printf("%6d", (main[ndx][idx] != Z) ? main[ndx][idx] : -1);
+        }
+        printf("\n");
+    }
 }
